@@ -1,0 +1,21 @@
+{
+  "name": "hopper",
+  "version": "1.0.0",
+  "description": "Generative art inspired by Edward Hopper.",
+  "main": "adjusted_camera_position_final_sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Edward",
+    "Hopper",
+    "algorithmic",
+    "generative",
+    "art"
+  ],
+  "author": "Morris A Aguilar",
+  "license": "ISC",
+  "dependencies": {
+    "ccapture.js": "github:spite/ccapture.js"
+  }
+}

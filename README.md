@@ -3,7 +3,7 @@
 ## Overview
 The artwork of [Edward Hopper](https://en.wikipedia.org/wiki/Edward_Hopper) and the old architecture of Pennsylvania with ornate windows inspired my [algorithmic art](https://en.wikipedia.org/wiki/Algorithmic_art) (algo art) project. My objective was to create a 3D animation via the Three.js library that converys depth and space similar to rooms dispicted in Hopper's paintings. Additionally, I made the Javascript code such that [traits of the windows](https://www.windowsonlineuk.co.uk/blog/what-are-the-different-parts-of-a-window/) window opening size, stool, casing, sash, sill and lintels) could be modified.
 
-<b>You can view the animation in your own browser by following [this link]()!</b>
+<b>You can view the animation in your own browser by following [this link](https://morrisglr.github.io/algo-art-hopper/)!</b>
 
 ## Visual Description 
 My animation emphasizes a [parallax effect](https://en.wikipedia.org/wiki/Parallax) by pivoting the viewer's point of view to the left and right the to draw attention to the depth of the scene. The window in the foreground has translucent curtains that with a gap in the middle that as a gentle boundary between the viewer's exterior point of view despite the openness of the interior space.I incorporated a distant environment in the background to compound the effect of spaciousness.

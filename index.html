@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <title>Hopper Window Algo Art</title>
     <style>
-        body { 
-            margin: 0; 
-            overflow: hidden; /* To prevent scrolling if the canvas is larger than the viewport */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
         }
-        canvas { 
-            display: block; 
-            background: #eee; /* Optional: To provide a different background color for clarity */
+        canvas {
+            display: block;
+            width: min(100vw, calc(100vh * 9 / 16));
+            height: min(100vh, calc(100vw * 16 / 9));
         }
     </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.js"></script>
-    <script src="https://oathihs.github.io/ThreeCSG/THREE.CSG.js"></script>
+    <script src="lib/three.min.js"></script>
+    <script src="lib/CCapture.all.min.js"></script>
     <script src="workinprogress_sketch_with_camera_swing_final.js"></script>
-    <script>
-        
-renderer.setSize(1080, 1920);
-        document.body.appendChild(renderer.domElement);
-
-        
-
-camera.position.z = 5;
-    </script>
 </body>
 </html>

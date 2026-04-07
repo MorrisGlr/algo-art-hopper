@@ -100,22 +100,13 @@ const roomDepth = 40;
 
 // Initialization;
 const scene = new THREE.Scene();
-let cameraAngle = 0;  // Initialize the rotation angle
 const camera = new THREE.PerspectiveCamera(90, 1080 / 1920, 0.01, 2000);
 const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
-renderer.setSize(1080, 1920);
+// false: set pixel buffer only — CSS controls display size
+renderer.setSize(1080, 1920, false);
 document.body.appendChild(renderer.domElement);
 
 renderer.setClearColor(0xeeeeee);
-
-window.addEventListener('resize', function() {
-    const newWidth = window.innerWidth;
-    const newHeight = window.innerHeight;
-    camera.aspect = newWidth / newHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
-});
-
 
 // Window object: defines the shape and size of the window object.
 //const windowGeometry = new THREE.BoxGeometry(chosenAspectRatio.width, chosenAspectRatio.height, 0.1);
@@ -123,12 +114,6 @@ window.addEventListener('resize', function() {
 //const windowMesh = new THREE.Mesh(windowGeometry, windowMaterial);
 //scene.add(windowMesh);
 //windowMesh.position.z = 0;
-
-
-// Create a large box geometry that represents the front wall, covering the entire view
-const wallWidth = window.innerWidth;
-const wallHeight = window.innerHeight;
-const frontWallGeometry = new THREE.BoxGeometry(wallWidth, wallHeight, 0.1);
 
 // Convert window and wall geometries to CSG (Constructive Solid Geometry);
 //let windowCSG = THREE.CSG.fromMesh(windowMesh);
@@ -285,7 +270,7 @@ holePath.lineTo((roomWidth)/2.3, (roomHeight)/2.7); // Top right corner of the h
 holePath.lineTo(-(roomWidth)/2.3, (roomHeight)/2.7); 
 holePath.lineTo(-(roomWidth)/2.3, -(roomHeight)/2.7);
 outerShape.holes.push(holePath); // Add the smaller rectangle (the hole) to the holes array of the larger rectangle (the shape). This effectively "subtracts" the smaller rectangle from the larger one, creating a hole.
-const backWallWithWindowGeometry = new THREE.ShapeBufferGeometry(outerShape); // Create a geometry from the shape. The ShapeBufferGeometry constructor takes our shape and turns it into a flat 2D geometry.
+const backWallWithWindowGeometry = new THREE.ShapeGeometry(outerShape); // Create a geometry from the shape. The ShapeBufferGeometry constructor takes our shape and turns it into a flat 2D geometry.
 const backWallWithWindowmaterial = new THREE.MeshBasicMaterial({ color: wallColor, side: THREE.DoubleSide });
 const backWallWithWindowMesh = new THREE.Mesh(backWallWithWindowGeometry, backWallWithWindowmaterial);
 backWallWithWindowMesh.position.z = -roomDepth -1;
@@ -441,6 +426,24 @@ scene.add(ambientLight);
 //camera.position.z = 6;
 //camera.lookAt(new THREE.Vector3(0, 0, windowMesh.position.z));
 
+// CCapture — press C to start/stop WebM recording
+let capturer = null;
+let capturing = false;
+document.addEventListener('keydown', function(e) {
+    if (e.key !== 'c' && e.key !== 'C') return;
+    if (!capturing) {
+        capturer = new CCapture({ format: 'webm', framerate: 60 });
+        capturer.start();
+        capturing = true;
+        console.log('CCapture: recording started');
+    } else {
+        capturer.stop();
+        capturer.save();
+        capturing = false;
+        console.log('CCapture: recording stopped, saving…');
+    }
+});
+
 // Animation;
 // Variables for camera swinging motion
 let angle = 0;
@@ -455,20 +458,11 @@ function animate() {
     }
     camera.position.x = cameraDistance * Math.sin(angle);
     camera.position.z = cameraDistance * Math.cos(angle);
-    camera.lookAt(scene.position); // Ensure the camera always looks at the center of the scene
+    camera.lookAt(scene.position);
   requestAnimationFrame(animate);
 
-  // Calculate camera's x and z position based on the rotation angle
-  camera.position.x = 10 * Math.sin(cameraAngle);
-  camera.position.z = 12 * Math.cos(cameraAngle);
-  
-  // Point the camera to the center of the window
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-  // Update the rotation angle for the next frame
-cameraAngle += cameraSwingDirection * 0.005;
-
   renderer.render(scene, camera);
+  if (capturing && capturer) capturer.capture(renderer.domElement);
 }
 
 animate();

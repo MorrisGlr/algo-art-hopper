@@ -438,7 +438,8 @@ scene.add(ambientLight);
 
 // CCapture — press C to start/stop WebM recording
 let capturer = null;
-let capturing = false;
+let isRecording = false;
+const recordingIndicator = document.getElementById('recording-indicator');
 document.addEventListener('keydown', function(e) {
     if (e.key === 'r' || e.key === 'R') {
         window.location.hash = 'seed=' + (Math.floor(Math.random() * 99999) + 1);
@@ -446,15 +447,17 @@ document.addEventListener('keydown', function(e) {
         return;
     }
     if (e.key !== 'c' && e.key !== 'C') return;
-    if (!capturing) {
+    if (!isRecording) {
         capturer = new CCapture({ format: 'webm', framerate: 60 });
         capturer.start();
-        capturing = true;
+        isRecording = true;
+        recordingIndicator.style.display = 'block';
         console.log('CCapture: recording started');
     } else {
         capturer.stop();
         capturer.save();
-        capturing = false;
+        isRecording = false;
+        recordingIndicator.style.display = 'none';
         console.log('CCapture: recording stopped, saving…');
     }
 });
@@ -493,7 +496,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   renderer.render(scene, camera);
-  if (capturing && capturer) capturer.capture(renderer.domElement);
+  if (isRecording && capturer) capturer.capture(renderer.domElement);
 }
 
 animate();

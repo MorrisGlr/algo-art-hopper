@@ -294,7 +294,7 @@ holePath.lineTo(-(roomWidth)/2.3, (roomHeight)/2.7);
 holePath.lineTo(-(roomWidth)/2.3, -(roomHeight)/2.7);
 outerShape.holes.push(holePath); // Add the smaller rectangle (the hole) to the holes array of the larger rectangle (the shape). This effectively "subtracts" the smaller rectangle from the larger one, creating a hole.
 const backWallWithWindowGeometry = new THREE.ShapeGeometry(outerShape); // Create a geometry from the shape. The ShapeBufferGeometry constructor takes our shape and turns it into a flat 2D geometry.
-const backWallWithWindowmaterial = new THREE.MeshBasicMaterial({ color: wallColor, side: THREE.DoubleSide });
+const backWallWithWindowmaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[3]), side: THREE.DoubleSide });
 const backWallWithWindowMesh = new THREE.Mesh(backWallWithWindowGeometry, backWallWithWindowmaterial);
 backWallWithWindowMesh.position.z = -roomDepth -1;
 scene.add(backWallWithWindowMesh);

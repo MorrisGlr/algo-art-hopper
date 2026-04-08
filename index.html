@@ -2,39 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hopper Window Algo Art</title>
+    <title>Morris Aguilar — Hopper Window Generative Art</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100vw;
-            height: 100vh;
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: #1a1a1a;
+        color: #e0e0e0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #layout {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 48px;
+        padding: 20px;
+      }
+
+      #canvas-container {
+        position: relative;
+        flex-shrink: 0;
+        width: calc(90vh * 9 / 16);
+        max-width: 480px;
+        background-image: url('og-image.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      #canvas-container.canvas-ready {
+        background-image: none;
+      }
+
+      #canvas-container canvas {
+        width: 100% !important;
+        height: auto !important;
+        display: block;
+      }
+
+      @media (max-width: 700px) {
+        #layout {
+          flex-direction: column;
         }
-        canvas {
-            display: block;
-            width: min(100vw, calc(100vh * 9 / 16));
-            height: min(100vh, calc(100vw * 16 / 9));
+        #canvas-container {
+          width: min(100%, calc(80vh * 9 / 16));
+          max-width: 480px;
         }
-        #seed-overlay {
-            position: fixed;
-            bottom: 12px;
-            left: 14px;
-            font-family: monospace;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.45);
-            pointer-events: none;
+      }
+
+      #seed-overlay {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        font-family: monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .info {
+        width: 240px;
+        flex-shrink: 0;
+        padding: 0;
+        text-align: left;
+      }
+
+      @media (max-width: 700px) {
+        .info {
+          width: 100%;
+          max-width: 480px;
+          text-align: center;
         }
+      }
+
+      .info h1 {
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+
+      .info .subtitle {
+        font-size: 13px;
+        color: #999;
+        margin-bottom: 20px;
+      }
+
+      .info .statement {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #bbb;
+        margin-bottom: 24px;
+        font-style: italic;
+      }
+
+      .info .controls {
+        font-size: 12px;
+        color: #777;
+        line-height: 1.8;
+      }
+
+      .info .controls kbd {
+        background: #333;
+        border: 1px solid #555;
+        border-radius: 3px;
+        padding: 1px 6px;
+        font-family: monospace;
+        font-size: 11px;
+        color: #ccc;
+      }
+
+      .info .portfolio-link {
+        font-size: 12px;
+        color: #666;
+        margin-top: 16px;
+      }
+
+      .info .portfolio-link a {
+        color: #666;
+        text-decoration: none;
+      }
+
+      .info .portfolio-link a:hover {
+        color: #999;
+      }
     </style>
 </head>
 <body>
-    <div id="seed-overlay"></div>
-    <script src="lib/three.min.js"></script>
-    <script src="lib/CCapture.all.min.js"></script>
-    <script src="utils.js"></script>
-    <script src="workinprogress_sketch_with_camera_swing_final.js"></script>
+  <div id="layout">
+    <div class="info">
+      <h1>Hopper Window</h1>
+      <h2 class="subtitle">Morris Aguilar</h2>
+      <p class="statement">
+        I reverse-engineer painters' compositional logic into parametric 3D code. Hopper's windows
+        are not incidental — they are the subject: a frame within a frame, depth rendered as
+        emotional distance. This scene derives every proportion from a single parametric chain and
+        renders in real time via Three.js.
+      </p>
+      <div class="controls">
+        <kbd>C</kbd> Export video &nbsp;&middot;&nbsp;
+        <kbd>R</kbd> New composition &nbsp;&middot;&nbsp;
+        <kbd>#seed=N</kbd> Reproduce
+      </div>
+      <p class="portfolio-link">
+        <a href="https://morrisglr.github.io/creative" rel="author">Morris Aguilar — Creative Portfolio</a>
+      </p>
+    </div>
+
+    <div id="canvas-container">
+      <div id="seed-overlay"></div>
+    </div>
+  </div>
+
+  <script src="lib/three.min.js"></script>
+  <script src="lib/CCapture.all.min.js"></script>
+  <script src="utils.js"></script>
+  <script src="workinprogress_sketch_with_camera_swing_final.js"></script>
 </body>
 </html>

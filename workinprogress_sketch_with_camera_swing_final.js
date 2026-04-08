@@ -110,7 +110,9 @@ const camera = new THREE.PerspectiveCamera(90, 1080 / 1920, 0.01, 2000);
 const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
 // false: set pixel buffer only — CSS controls display size
 renderer.setSize(1080, 1920, false);
-document.body.appendChild(renderer.domElement);
+const canvasContainer = document.getElementById('canvas-container');
+canvasContainer.appendChild(renderer.domElement);
+canvasContainer.classList.add('canvas-ready');
 
 renderer.setClearColor(0xeeeeee);
 document.getElementById('seed-overlay').textContent = 'seed: ' + SEED;

@@ -453,13 +453,29 @@ let angle = 0;
 let maxSwingAngle = Math.PI / 9.5; // 45 degrees in radians
 let cameraDistance = 25; // distance from the center
 let cameraSwingDirection = 1; // Initialize the variable outside the animate function
+
+// Mouse/touch influence on camera
+let mouseInfluence = 0;
+let mouseInfluenceTarget = 0;
+const mouseInfluenceMagnitude = 5 * (Math.PI / 180); // ±5 degrees in radians
+
+document.addEventListener('mousemove', (e) => {
+    mouseInfluenceTarget = (e.clientX / window.innerWidth) * 2 - 1;
+});
+document.addEventListener('touchmove', (e) => {
+    mouseInfluenceTarget = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+}, { passive: true });
+
 function animate() {
+    // Lerp mouse influence toward target for smooth response
+    mouseInfluence += (mouseInfluenceTarget - mouseInfluence) * 0.05;
+
     // Swing the camera
     angle += 0.0025 * cameraSwingDirection;
     if (angle >= maxSwingAngle || angle <= -maxSwingAngle) {
         cameraSwingDirection *= -1;
     }
-    camera.position.x = cameraDistance * Math.sin(angle);
+    camera.position.x = cameraDistance * Math.sin(angle) + mouseInfluence * mouseInfluenceMagnitude;
     camera.position.z = cameraDistance * Math.cos(angle);
     camera.lookAt(scene.position);
   requestAnimationFrame(animate);

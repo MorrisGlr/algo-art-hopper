@@ -4,16 +4,50 @@ const SEED = hashMatch ? parseInt(hashMatch[1], 10) : Math.floor(Math.random() *
 if (!hashMatch) window.location.hash = 'seed=' + SEED;
 const rand = mulberry32(SEED);
 
+// ─── Palette presets ────────────────────────────────────────────────────────
+// tones[0..4]: light → dark room surfaces
+// sky[0]: horizon color, sky[1]: zenith color
+// curtain: dedicated curtain color
+const PALETTES = [
+  {
+    name: 'nighthawks',
+    tones: [0xba725e, 0xae6055, 0x985656, 0x7c4f53, 0x60484f],
+    sky:   [0x4d5999, 0xd9f3fa],
+    curtain: 0x6b4a3e
+  },
+  {
+    name: 'morning_sun',
+    tones: [0xf2c9b0, 0xe8b496, 0xd4977a, 0xb07868, 0x8a5c52],
+    sky:   [0xc4d4e8, 0xfaead8],
+    curtain: 0xf0e0cc
+  },
+  {
+    name: 'room_brooklyn',
+    tones: [0xd4dbc8, 0xb5c2a8, 0x8fa08a, 0x6e7d6a, 0x4d5a50],
+    sky:   [0x5c7fa6, 0xd6e8f2],
+    curtain: 0xe8ebe0
+  },
+  {
+    name: 'sun_empty_room',
+    tones: [0xf5e6b8, 0xe8cd87, 0xd4a85a, 0xb08040, 0x7a5c2a],
+    sky:   [0x8fa8c8, 0xf5f0e0],
+    curtain: 0xf0e8c0
+  }
+];
+
+// ─── Composition choices (consume rand in fixed order) ────────────────────
+const palette       = PALETTES[Math.floor(rand() * PALETTES.length)];
+const curtainOpacity = rand() * 0.6 + 0.2;   // 0.2 – 0.8
+const curtainGapSeed = rand() * 4.0 + 1.0;   // 1.0 – 5.0
+const numPanes      = rand() < 0.5 ? 2 : 1;  // 4d: single or double pane
+
 const roomWidth = 20;// revert back to  10
 
 const scaleFactor = 2;
 const chosenAspectRatio = { width: 4*2.3 * scaleFactor, height: 3 *4* scaleFactor }; // revery back to 9:16 without the additional scale factor
 const casingThickness = 0.5 * scaleFactor; // Adjusting casing thickness proportionally
 const casingTopGeometry = new THREE.BoxGeometry(chosenAspectRatio.width + 1 * casingThickness, casingThickness*1, 1);
-const casingColor = new THREE.Color(0xba725e);
-const white = new THREE.Color(0xFFFFFF);
-const blendFactor = 0.0; // Adjust this value as needed. Closer to 0 is the original color, closer to 1 is white.
-casingColor.lerp(white, blendFactor);
+const casingColor = new THREE.Color(palette.tones[0]);
 const casingMaterials = new THREE.MeshBasicMaterial({ color: casingColor });
 
 const casingTopMesh = new THREE.Mesh(casingTopGeometry, casingMaterials);
@@ -30,17 +64,13 @@ casingRightMesh.position.z = -10.5;
 const sillHeight = casingThickness * 0.9;
 const sillDepth = 2.5;
 const sillGeometry = new THREE.BoxGeometry(chosenAspectRatio.width + 5 * casingThickness, sillHeight, sillDepth);
-const sillColor = new THREE.Color(0xae6055);
-sillColor.lerp(white, blendFactor);
-const sillMaterial = new THREE.MeshBasicMaterial({ color: sillColor });
+const sillMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[1]) });
 const sillMesh = new THREE.Mesh(sillGeometry, sillMaterial);
 sillMesh.position.z = -10;
 const lintelHeight = casingThickness * 2.7;
 const lintelWidth = chosenAspectRatio.width *1.3;
 const lintelGeometry = new THREE.BoxGeometry(lintelWidth, lintelHeight, 1.5);
-const lintelColor = new THREE.Color(0x985656);
-lintelColor.lerp(white, blendFactor);
-const lintelMaterial = new THREE.MeshBasicMaterial({ color: lintelColor });
+const lintelMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[2]) });
 const lintelMesh = new THREE.Mesh(lintelGeometry, lintelMaterial);
 lintelMesh.position.z = -10;
 lintelMesh.rotation.x = Math.PI / 4.9;
@@ -50,45 +80,35 @@ const dentilWidth = 1.2;
 const dentilHeight = dentilWidth * 2;
 const dentilDepth = 0.7;
 const dentilGeometry = new THREE.BoxGeometry(dentilWidth, dentilHeight, dentilDepth);
-dentilColor = new THREE.Color(0x7c4f53);
-const dentilMaterial = new THREE.MeshBasicMaterial({ color: dentilColor }); // Same color as the other decorative elements;
+const dentilMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[3]) });
 const dentilMesh = new THREE.Mesh(dentilGeometry, dentilMaterial);
 dentilMesh.position.z = -9;
 dentilMesh.rotation.x = Math.PI / 8;
 const apronHeight = 3.5;
 const apronGeometry = new THREE.BoxGeometry(chosenAspectRatio.width + 1.5 * casingThickness, apronHeight, 0.7);
-const apronColor = new THREE.Color(0x60484f);
-apronColor.lerp(white, blendFactor);
-const apronMaterial = new THREE.MeshBasicMaterial({ color: apronColor });
+const apronMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[4]) });
 const apronMesh = new THREE.Mesh(apronGeometry, apronMaterial);
 apronMesh.position.z = -10;
 apronMesh.rotation.x = Math.PI / 8;
 const blockThickness = casingThickness * 2;
 const blockGeometry = new THREE.BoxGeometry(blockThickness, blockThickness/1.2, 0.80); // Making it slightly thicker;
 
-// Block color
-const blockColor = new THREE.Color(0xba725e);
-blockColor.lerp(white, blendFactor);
-// End of block color
-
-const blockMaterial = new THREE.MeshBasicMaterial({ color: blockColor }); // Same color as the apron and lintel;
+const blockMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[0]) });
 const topLeftBlock = new THREE.Mesh(blockGeometry, blockMaterial, );
 const topRightBlock = new THREE.Mesh(blockGeometry, blockMaterial);
 const bottomLeftBlock = new THREE.Mesh(blockGeometry, blockMaterial);
 const bottomRightBlock = new THREE.Mesh(blockGeometry, blockMaterial);
 
 // Curtains
-const curtainGap = 2.5;
+const curtainGap = curtainGapSeed;
 const curtainWidth = (chosenAspectRatio.width - curtainGap) / 2;
 const curtainHeight = chosenAspectRatio.height;
 const curtainDepth = 0;
 const curtainGeometry = new THREE.BoxGeometry(curtainWidth, curtainHeight, curtainDepth);
-const curtainColor = new THREE.Color(0xae6055);
-curtainColor.lerp(white, blendFactor);
 const curtainMaterial = new THREE.MeshBasicMaterial({
-  color: curtainColor,   // Light Blue for now, you can change to any color you want;
+  color: new THREE.Color(palette.curtain),
   transparent: true,
-  opacity: 0.4       // Making the curtain translucent. Adjust opacity to your liking;
+  opacity: curtainOpacity
 });
 const leftCurtainMesh = new THREE.Mesh(curtainGeometry, curtainMaterial);
 leftCurtainMesh.position.z = -10.9;
@@ -206,6 +226,14 @@ rightCurtainMesh.position.x = chosenAspectRatio.width / 4 + curtainGap / 2;
 
  // Slightly in front of the window to avoid overlap;
 scene.add(rightCurtainMesh);
+
+// 4d: Muntin bar for 2-pane window
+if (numPanes === 2) {
+    const muntinGeo = new THREE.BoxGeometry(casingThickness * 0.5, chosenAspectRatio.height, 1);
+    const muntinMesh = new THREE.Mesh(muntinGeo, casingMaterials);
+    muntinMesh.position.z = -10;
+    scene.add(muntinMesh);
+}
 // This is the end of the window frame creation.
 
 // Exterior Wall (wall that window is attached to)
@@ -214,27 +242,13 @@ scene.add(rightCurtainMesh);
 
 // Room. Here we create the room behind the window. We will create a floor, ceiling, and walls (left wall, right wall, and back wall); these are components of what we will refer to a the "room.";
 // Materials;
-const floorColor = new THREE.Color(0x985656);
-floorColor.lerp(white, blendFactor);
-const floorMaterial = new THREE.MeshBasicMaterial({ color: floorColor });   // Grey for the floor;
-const wallColor = new THREE.Color(0x7c4f53);
-wallColor.lerp(white, blendFactor)
-const wallMaterial = new THREE.MeshBasicMaterial({ color: wallColor });   // Lighter grey for the walls;
-const ceilingColor = new THREE.Color(0x60484f);
-ceilingColor.lerp(white, blendFactor);
-const ceilingMaterial = new THREE.MeshBasicMaterial({ color: ceilingColor}); // Even lighter grey for the ceiling;
-const leftWallDecorationColor = new THREE.Color(0xba725e);
-const leftWallDecorationColor2 = new THREE.Color(0xae6055);
-leftWallDecorationColor.lerp(white, blendFactor);
-leftWallDecorationColor2.lerp(white, blendFactor);
-const leftWallDecorationMaterial = new THREE.MeshBasicMaterial({ color: leftWallDecorationColor });
-const leftWallDecorationMaterial2 = new THREE.MeshBasicMaterial({ color: leftWallDecorationColor2 });
-const rightWallDecorationColor = new THREE.Color(0x985656);
-const rightWallDecorationColor2 = new THREE.Color(0x7c4f53);
-rightWallDecorationColor.lerp(white, blendFactor);
-rightWallDecorationColor2.lerp(white, blendFactor);
-const rightWallDecorationMaterial = new THREE.MeshBasicMaterial({ color: rightWallDecorationColor });
-const rightWallDecorationMaterial2 = new THREE.MeshBasicMaterial({ color: rightWallDecorationColor2 });
+const floorMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[2]) });
+const wallMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[3]) });
+const ceilingMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[4]) });
+const leftWallDecorationMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[0]) });
+const leftWallDecorationMaterial2 = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[1]) });
+const rightWallDecorationMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[2]) });
+const rightWallDecorationMaterial2 = new THREE.MeshBasicMaterial({ color: new THREE.Color(palette.tones[3]) });
 
 
 // Geometries
@@ -290,8 +304,8 @@ scene.add(backWallWithWindowMesh);
 //scene.add(backWallSkyMesh);
 const skyGeometry = new THREE.PlaneGeometry(20, 20);
 
-const skycolor1 = hexToNormalizedRGB(0x4d5999);
-const skycolor2 = hexToNormalizedRGB(0xd9f3fa);
+const skycolor1 = hexToNormalizedRGB(palette.sky[0]);
+const skycolor2 = hexToNormalizedRGB(palette.sky[1]);
 
 const skyUniforms = {
   colorA: { value: new THREE.Vector3(skycolor1.r, skycolor1.g, skycolor1.b) },
@@ -334,17 +348,14 @@ scene.add(skyMesh);
 const cityScape = new THREE.Group();
 
 // Create buildings of varying heights and widths
-for (let i = 0; i < 15; i++) {
-    const height = rand() * 15 + 6;  // Random height between 5 and 15
-    const width = rand() * 4 + 1;   // Random width between 1 and 4
-
-    const geometry = new THREE.BoxGeometry(width, height, 1);
+const buildingLayout = computeBuildingLayout(15, rand);
+for (const b of buildingLayout) {
+    const geometry = new THREE.BoxGeometry(b.width, b.height, 1);
     const material = new THREE.MeshBasicMaterial({color: 0x475165}); // Dark color for distant appearance
     const building = new THREE.Mesh(geometry, material);
 
-    // Position the building
-    building.position.x = (i * 2.75) - 15.5; // Space buildings by 5 units
-    building.position.y = -height - 2.2; // So that buildings stand on the ground
+    building.position.x = b.x;
+    building.position.y = -b.height - 2.2;
     building.position.z = -71;
     cityScape.add(building);
 }
@@ -393,8 +404,7 @@ rightWallDecorationMesh2.rotation.x = Math.PI / 1.18;
 scene.add(rightWallDecorationMesh2);
 
 // Furniture
-const furnitureColor = new THREE.Color(0x60484f);
-furnitureColor.lerp(white, blendFactor);
+const furnitureColor = new THREE.Color(palette.tones[4]);
 const furnitureShape = new THREE.Shape();
 furnitureShape.moveTo(0, -(roomHeight/2.5));
 furnitureShape.lineTo((roomWidth)/8, -(roomHeight/2)); // Bottom rightmost corner of the furniture

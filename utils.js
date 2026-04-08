@@ -9,6 +9,23 @@ function hexToNormalizedRGB(hex) {
   };
 }
 
+// computeBuildingLayout: returns an array of {x, height, width} objects for city buildings.
+// count: number of buildings; rand: seeded PRNG function (e.g. mulberry32 instance).
+// Height range 5–20, width range 1–5, spacing derived from count.
+function computeBuildingLayout(count, rand) {
+  const totalSpan = 31; // scene units, roughly -15.5 to +15.5
+  const spacing = totalSpan / count;
+  const buildings = [];
+  for (let i = 0; i < count; i++) {
+    buildings.push({
+      height: rand() * 15 + 5,
+      width: rand() * 4 + 1,
+      x: (i * spacing) - totalSpan / 2 + spacing / 2
+    });
+  }
+  return buildings;
+}
+
 // mulberry32: deterministic 32-bit PRNG seeded by a positive integer.
 // Returns a factory function; each call to rand() produces a float in [0, 1).
 // Same seed always produces the same sequence.

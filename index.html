@@ -19,11 +19,22 @@
             width: min(100vw, calc(100vh * 9 / 16));
             height: min(100vh, calc(100vw * 16 / 9));
         }
+        #seed-overlay {
+            position: fixed;
+            bottom: 12px;
+            left: 14px;
+            font-family: monospace;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.45);
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <div id="seed-overlay"></div>
     <script src="lib/three.min.js"></script>
     <script src="lib/CCapture.all.min.js"></script>
+    <script src="utils.js"></script>
     <script src="workinprogress_sketch_with_camera_swing_final.js"></script>
 </body>
 </html>

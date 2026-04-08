@@ -1,3 +1,9 @@
+// Seed: read from URL hash or generate a 5-digit seed and write it back
+const hashMatch = window.location.hash.match(/#?seed=(\d+)/);
+const SEED = hashMatch ? parseInt(hashMatch[1], 10) : Math.floor(Math.random() * 99999) + 1;
+if (!hashMatch) window.location.hash = 'seed=' + SEED;
+const rand = mulberry32(SEED);
+
 const roomWidth = 20;// revert back to  10
 
 const scaleFactor = 2;
@@ -107,6 +113,7 @@ renderer.setSize(1080, 1920, false);
 document.body.appendChild(renderer.domElement);
 
 renderer.setClearColor(0xeeeeee);
+document.getElementById('seed-overlay').textContent = 'seed: ' + SEED;
 
 // Window object: defines the shape and size of the window object.
 //const windowGeometry = new THREE.BoxGeometry(chosenAspectRatio.width, chosenAspectRatio.height, 0.1);
@@ -283,15 +290,6 @@ scene.add(backWallWithWindowMesh);
 //scene.add(backWallSkyMesh);
 const skyGeometry = new THREE.PlaneGeometry(20, 20);
 
-// Function to convert hexadecimal colors to normalized RGB
-function hexToNormalizedRGB(hex) {
-  return {
-    r: ((hex >> 16) & 255) / 255,
-    g: ((hex >> 8) & 255) / 255,
-    b: (hex & 255) / 255
-  };
-}
-
 const skycolor1 = hexToNormalizedRGB(0x4d5999);
 const skycolor2 = hexToNormalizedRGB(0xd9f3fa);
 
@@ -337,8 +335,8 @@ const cityScape = new THREE.Group();
 
 // Create buildings of varying heights and widths
 for (let i = 0; i < 15; i++) {
-    const height = Math.random() * 15 + 6;  // Random height between 5 and 15
-    const width = Math.random() * 4 + 1;   // Random width between 1 and 4
+    const height = rand() * 15 + 6;  // Random height between 5 and 15
+    const width = rand() * 4 + 1;   // Random width between 1 and 4
 
     const geometry = new THREE.BoxGeometry(width, height, 1);
     const material = new THREE.MeshBasicMaterial({color: 0x475165}); // Dark color for distant appearance
@@ -430,6 +428,11 @@ scene.add(ambientLight);
 let capturer = null;
 let capturing = false;
 document.addEventListener('keydown', function(e) {
+    if (e.key === 'r' || e.key === 'R') {
+        window.location.hash = 'seed=' + (Math.floor(Math.random() * 99999) + 1);
+        window.location.reload();
+        return;
+    }
     if (e.key !== 'c' && e.key !== 'C') return;
     if (!capturing) {
         capturer = new CCapture({ format: 'webm', framerate: 60 });

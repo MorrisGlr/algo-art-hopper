@@ -40,3 +40,7 @@ function mulberry32(seed) {
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
   };
 }
+
+if (typeof module !== 'undefined') {
+  module.exports = { hexToNormalizedRGB, mulberry32, computeBuildingLayout };
+}

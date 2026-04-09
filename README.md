@@ -10,6 +10,10 @@
 
 **[→ Live demo](https://morrisglr.github.io/algo-art-hopper/)**
 
+![Tests](https://github.com/MorrisGlr/algo-art-hopper/actions/workflows/ci.yml/badge.svg)
+![Deploy](https://github.com/MorrisGlr/algo-art-hopper/actions/workflows/deploy.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ---
 
 ## Controls

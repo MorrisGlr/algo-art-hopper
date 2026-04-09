@@ -1,6 +1,8 @@
-<video src="https://github.com/user-attachments/assets/2ba5c9f2-d9b3-43ec-abf0-23a55bf8a67d" autoplay loop muted playsinline width="320"></video>
-
-<img src="social-preview.png" alt="Hopper Window — generative 3D scene with parametric window frame, curtains, and city silhouette" width="100%"/>
+<div align="center">
+<video src="https://github.com/user-attachments/assets/2ba5c9f2-d9b3-43ec-abf0-23a55bf8a67d" autoplay loop muted playsinline width="320">
+  <img src="social-preview.png" alt="Hopper Window — generative 3D scene with parametric window frame, curtains, and city silhouette" width="320"/>
+</video>
+</div>
 
 # Hopper Window
 

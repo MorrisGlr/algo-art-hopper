@@ -1,52 +1,62 @@
-# Edward Hopper Algorithic Art
+<video src="output.mp4" autoplay loop muted playsinline width="100%"></video>
 
-## Overview
-The artwork of [Edward Hopper](https://en.wikipedia.org/wiki/Edward_Hopper) and the old architecture of Pennsylvania with ornate windows inspired my [algorithmic art](https://en.wikipedia.org/wiki/Algorithmic_art) (algo art) project. My objective was to create a 3D animation via the Three.js library that converys depth and space similar to rooms dispicted in Hopper's paintings. Additionally, I made the Javascript code such that [traits of the windows](https://www.windowsonlineuk.co.uk/blog/what-are-the-different-parts-of-a-window/) window opening size, stool, casing, sash, sill and lintels) could be modified.
+<img src="social-preview.png" alt="Hopper Window — generative 3D scene with parametric window frame, curtains, and city silhouette" width="100%"/>
 
-<b>You can view the animation in your own browser by following [this link](https://morrisglr.github.io/algo-art-hopper/)!</b>
+# Hopper Window
 
-## Visual Description 
-My animation emphasizes a [parallax effect](https://en.wikipedia.org/wiki/Parallax) by pivoting the viewer's point of view to the left and right the to draw attention to the depth of the scene. The window in the foreground has translucent curtains that with a gap in the middle that as a gentle boundary between the viewer's exterior point of view despite the openness of the interior space.I incorporated a distant environment in the background to compound the effect of spaciousness.
+> I reverse-engineer painters' compositional logic into parametric 3D code. Hopper's windows are not incidental — they are the subject: a frame within a frame, depth rendered as emotional distance.
 
-## Conceptual Inspiration
-I am a fan of Edward Hopper's work and as pointed out by other admirers of his work, Hopper incorporates windows into his paintings. These windows tend to be large and reveal a spacious interior. As one looks through the depicted window in the foreground, sometimes another window is vissble in the background that frames the space beyond the interior.
+**[→ Live demo](https://morrisglr.github.io/algo-art-hopper/)**
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://uploads3.wikiart.org/images/edward-hopper/not_detected_235610.jpg" width="250"/><br/>
-      <sub>Office in a Small City. Edward Hopper. 1953.</sub>
-    </td>
-    <td align="center">
-      <img src="https://uploads0.wikiart.org/images/edward-hopper/apartment-houses.jpg" width="250"/><br/>
-      <sub>Apartment Houses. Edward Hopper. 1923.</sub>
-    </td>
-    <td align="center">
-      <img src="https://uploads0.wikiart.org/images/edward-hopper/cape-cod-morning.jpg" width="250"/><br/>
-      <sub>Cape Cod Morning. Edward Hopper. 1950.</sub>
-    </td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td align="center">
-      <img src="media/morris_aguilar_hopper_demo_2_screenshot.png" width="250"/><br/>
-      <sub>Single Frame of Hopper Demo 2 Algo Art. Morris Aguilar. 2023.</sub>
-    </td>
-    <td align="center">
-      <img src="media/morris_aguilar_hopper_18_screenshot.png" width="250"/><br/>
-      <sub>Single Frame of Hopper 18 Algo Art. Morris Aguilar. 2023.</sub>
-    </td>
-    <td align="center">
-      <img src="media/morris_aguilar_hopper_15_screenshot.png" width="250"/><br/>
-      <sub>Single Frame of Hopper 15 Algo Art. Morris Aguilar. 2023.</sub>
-    </td>
-  </tr>
-</table>
+---
+
+## Controls
+
+| Key | Action |
+|-----|--------|
+| `R` | New composition (new seed) |
+| `C` | Export video (WebM via CCapture.js) |
+| `#seed=N` in URL | Reproduce a specific composition |
+
+Move the mouse (or touch) to add a ±5° parallax offset on top of the autonomous pendular swing.
+
+---
+
+## Concept
+
+Edward Hopper's paintings are built around windows — not as decoration but as compositional devices. A window in the foreground frames an interior; another window in the background frames the city beyond. The viewer is always outside, always peering in. That spatial logic — frame within frame, depth as emotional distance — is what this piece formalizes into code.
+
+Every load produces a unique composition: a seeded PRNG selects one of four Hopper-derived color palettes (`nighthawks`, `morning_sun`, `room_brooklyn`, `sun_empty_room`), randomizes curtain opacity and gap width, and generates a new cityscape silhouette. Same seed → identical result.
+
+---
 
 ## Technical Overview
-I made the this project can run directly on any web browser, making it accessible and easy to share. I used the Three.js library to create the 3D environment that would run in a browser. 
 
-# Contact
-Morris A. Aguilar, Ph.D.<br>
-@morrisglr.bsky.social
+- **Three.js r120** — WebGL scene with four z-depth zones: window frame, room interior, city silhouette, GLSL sky gradient
+- **Zero build system** — pure vanilla JS loaded via `<script>` tags; runs directly in any browser
+- **Portrait canvas** — 1080×1920 (9:16), scaled via CSS; deliberate formal choice mapping to vertical display formats
+- **Parametric chain** — all dimensions derive from `scaleFactor` and `chosenAspectRatio`; no magic numbers
+- **Seeded PRNG** — `mulberry32` ensures reproducibility; seed in URL hash, displayed on canvas
+
+Part of the **Computational Art History** series — each entry translates a painter's compositional logic into a generative parametric system.
+
+---
+
+## Run Locally
+
+```bash
+git clone https://github.com/MorrisGlr/algo-art-hopper.git
+cd algo-art-hopper
+python3 -m http.server 8000
+# open http://localhost:8000
+```
+
+No install step. No build step.
+
+---
+
+## License
+
+[MIT](LICENSE) — Morris Aguilar, 2026
+
+[@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://morrisglr.github.io/creative)

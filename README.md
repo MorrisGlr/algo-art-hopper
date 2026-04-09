@@ -1,4 +1,4 @@
-<video src="output.mp4" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/2ba5c9f2-d9b3-43ec-abf0-23a55bf8a67d" autoplay loop muted playsinline width="320"></video>
 
 <img src="social-preview.png" alt="Hopper Window — generative 3D scene with parametric window frame, curtains, and city silhouette" width="100%"/>
 
@@ -27,6 +27,44 @@ Move the mouse (or touch) to add a ±5° parallax offset on top of the autonomou
 Edward Hopper's paintings are built around windows — not as decoration but as compositional devices. A window in the foreground frames an interior; another window in the background frames the city beyond. The viewer is always outside, always peering in. That spatial logic — frame within frame, depth as emotional distance — is what this piece formalizes into code.
 
 Every load produces a unique composition: a seeded PRNG selects one of four Hopper-derived color palettes (`nighthawks`, `morning_sun`, `room_brooklyn`, `sun_empty_room`), randomizes curtain opacity and gap width, and generates a new cityscape silhouette. Same seed → identical result.
+
+---
+
+## Conceptual Inspiration
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://uploads3.wikiart.org/images/edward-hopper/not_detected_235610.jpg" width="250"/><br/>
+      <sub>Office in a Small City. Edward Hopper. 1953.</sub>
+    </td>
+    <td align="center">
+      <img src="https://uploads0.wikiart.org/images/edward-hopper/apartment-houses.jpg" width="250"/><br/>
+      <sub>Apartment Houses. Edward Hopper. 1923.</sub>
+    </td>
+    <td align="center">
+      <img src="https://uploads0.wikiart.org/images/edward-hopper/cape-cod-morning.jpg" width="250"/><br/>
+      <sub>Cape Cod Morning. Edward Hopper. 1950.</sub>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="media/morris_aguilar_hopper_demo_2_screenshot.png" width="250"/><br/>
+      <sub>Single Frame of Hopper Demo 2 Algo Art. Morris Aguilar. 2023.</sub>
+    </td>
+    <td align="center">
+      <img src="media/morris_aguilar_hopper_18_screenshot.png" width="250"/><br/>
+      <sub>Single Frame of Hopper 18 Algo Art. Morris Aguilar. 2023.</sub>
+    </td>
+    <td align="center">
+      <img src="media/morris_aguilar_hopper_15_screenshot.png" width="250"/><br/>
+      <sub>Single Frame of Hopper 15 Algo Art. Morris Aguilar. 2023.</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 

@@ -4,7 +4,7 @@
 
 # Hopper Window
 
-> I reverse-engineer painters' compositional logic into parametric 3D code. Hopper's windows are not incidental — they are the subject: a frame within a frame, depth rendered as emotional distance.
+> I reverse-engineer painters' compositional logic into parametric 3D code. Hopper's windows are the subject where there is a frame within a frame and depth is rendered as emotional distance.
 
 **[→ Live demo](https://morrisglr.github.io/algo-art-hopper/)**
 

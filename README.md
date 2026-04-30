@@ -103,4 +103,10 @@ No install step. No build step.
 
 [MIT](LICENSE) — Morris Aguilar, 2026
 
+## About
+
+Morris Aguilar, M.D./Ph.D., has work that spans clinical AI and computational biology. This project is part of the computational art history series, which translates biological and artistic structures into parametric browser-based systems.
+
+## Contact
+
 [@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://mementomorris.art/) · [LinkedIn](https://www.linkedin.com/in/morris-a-aguilar/)

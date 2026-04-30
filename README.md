@@ -103,4 +103,4 @@ No install step. No build step.
 
 [MIT](LICENSE) — Morris Aguilar, 2026
 
-[@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://morrisglr.github.io/creative)
+[@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://mementomorris.art/) · [LinkedIn](https://www.linkedin.com/in/morris-a-aguilar/)

@@ -4,7 +4,7 @@
   "description": "Generative art inspired by Edward Hopper.",
   "main": "adjusted_camera_position_final_sketch.js",
   "scripts": {
-    "test": "node --test tests/utils.test.js"
+    "test": "node --test tests/utils.test.js tests/three.smoke.test.js"
   },
   "keywords": [
     "Edward",

@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 // Seed: read from URL hash or generate a 5-digit seed and write it back
 const hashMatch = window.location.hash.match(/#?seed=(\d+)/);
 const SEED = hashMatch ? parseInt(hashMatch[1], 10) : Math.floor(Math.random() * 99999) + 1;

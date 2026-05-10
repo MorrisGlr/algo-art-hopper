@@ -41,6 +41,62 @@ function mulberry32(seed) {
   };
 }
 
+// ─── CompositionEngine interface ─────────────────────────────────────────────
+// Three-slot contract for Computational Art History series entries.
+// Each sibling sketch supplies its own palettes and layoutFn; the seed/PRNG/
+// selection scaffold is shared via createComposition().
+
+/**
+ * @typedef {Object} PalettePreset
+ * @property {string}   name    - Identifier (e.g. 'nighthawks'), typically a painting title in snake_case
+ * @property {number[]} tones   - Five hex integers, light → dark, for room/scene surfaces
+ * @property {number[]} sky     - Two hex integers: [horizon, zenith]
+ * @property {number}   curtain - Hex integer for the curtain/drape color
+ */
+
+/**
+ * @typedef {function(rand: function(): number): Object[]} LayoutFn
+ * Generates domain-specific scene geometry descriptors from a seeded rand stream.
+ * Must consume rand calls in a fixed, deterministic order to preserve seed reproducibility.
+ * Example: computeBuildingLayout is the LayoutFn for algo-art-hopper.
+ */
+
+/**
+ * @typedef {Object} CompositionResult
+ * @property {function(): number} rand    - Seeded PRNG advanced past palette selection and layout
+ * @property {PalettePreset}      palette - Palette selected for this seed
+ * @property {Object[]}           layout  - Geometry descriptors returned by layoutFn
+ */
+
+/**
+ * @typedef {Object} CompositionEngine
+ * @property {PalettePreset[]} palettes  - Domain-specific palette presets
+ * @property {LayoutFn}        layoutFn  - Scene layout generator consuming rand in fixed order
+ * @property {function(t: number, mouseInfluence: number): {x: number, y: number, z: number}} [cameraFn]
+ *   Optional — not yet wired into createComposition. Document your camera grammar here
+ *   for series consistency across entries.
+ */
+
+/**
+ * Creates a seeded composition: initializes PRNG, selects a palette, and generates layout.
+ * The returned rand is advanced past palette selection and layout — continue calling it
+ * for additional per-load parameters (curtain opacity, pane count, etc.).
+ *
+ * Usage in a sibling sketch:
+ *   const { rand, palette, layout } = createComposition(SEED, MY_PALETTES, myLayoutFn);
+ *
+ * @param {number}         seed     - Integer seed (from URL hash or Math.random)
+ * @param {PalettePreset[]} palettes - Domain-specific palette array (4 presets recommended)
+ * @param {LayoutFn}        layoutFn - Layout generator that consumes rand
+ * @returns {CompositionResult}
+ */
+function createComposition(seed, palettes, layoutFn) {
+  const rand = mulberry32(seed);
+  const palette = palettes[Math.floor(rand() * palettes.length)];
+  const layout = layoutFn(rand);
+  return { rand, palette, layout };
+}
+
 if (typeof module !== 'undefined') {
-  module.exports = { hexToNormalizedRGB, mulberry32, computeBuildingLayout };
+  module.exports = { hexToNormalizedRGB, mulberry32, computeBuildingLayout, createComposition };
 }

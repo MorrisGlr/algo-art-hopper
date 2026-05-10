@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { hexToNormalizedRGB, mulberry32, computeBuildingLayout } = require('../utils.js');
+const { hexToNormalizedRGB, mulberry32, computeBuildingLayout, createComposition } = require('../utils.js');
 
 // hexToNormalizedRGB
 test('hexToNormalizedRGB — pure red', () => {
@@ -88,4 +88,51 @@ test('computeBuildingLayout — deterministic with same seed', () => {
     assert.strictEqual(layout1[i].width, layout2[i].width);
     assert.strictEqual(layout1[i].x, layout2[i].x);
   }
+});
+
+// createComposition
+const STUB_PALETTES = [
+  { name: 'a', tones: [0xff0000], sky: [0, 0], curtain: 0 },
+  { name: 'b', tones: [0x00ff00], sky: [0, 0], curtain: 0 },
+  { name: 'c', tones: [0x0000ff], sky: [0, 0], curtain: 0 },
+  { name: 'd', tones: [0xffffff], sky: [0, 0], curtain: 0 },
+];
+
+test('createComposition — same seed produces identical palette and layout', () => {
+  const layoutFn = (rand) => [{ x: rand() }];
+  const r1 = createComposition(42, STUB_PALETTES, layoutFn);
+  const r2 = createComposition(42, STUB_PALETTES, layoutFn);
+  assert.strictEqual(r1.palette.name, r2.palette.name);
+  assert.strictEqual(r1.layout[0].x, r2.layout[0].x);
+});
+
+test('createComposition — different seeds select different palettes across a range', () => {
+  const layoutFn = () => [];
+  const names = new Set();
+  for (let seed = 1; seed <= 20; seed++) {
+    names.add(createComposition(seed, STUB_PALETTES, layoutFn).palette.name);
+  }
+  assert.ok(names.size > 1, `Expected multiple palettes across 20 seeds, got: ${[...names].join(', ')}`);
+});
+
+test('createComposition — layoutFn receives rand advanced past palette selection', () => {
+  let firstRandInLayout;
+  const layoutFn = (rand) => { firstRandInLayout = rand(); return []; };
+  createComposition(42, STUB_PALETTES, layoutFn);
+
+  const verifyRand = mulberry32(42);
+  verifyRand(); // palette selection consumes first call
+  assert.strictEqual(firstRandInLayout, verifyRand());
+});
+
+test('createComposition — returned rand continues deterministically past layout', () => {
+  const layoutFn = (rand) => { rand(); return []; }; // consumes one rand call
+  const { rand } = createComposition(42, STUB_PALETTES, layoutFn);
+
+  const verifyRand = mulberry32(42);
+  verifyRand(); // palette selection
+  verifyRand(); // layout fn
+  // both streams are now in sync
+  assert.strictEqual(rand(), verifyRand());
+  assert.strictEqual(rand(), verifyRand());
 });

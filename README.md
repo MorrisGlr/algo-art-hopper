@@ -16,6 +16,14 @@
 
 ---
 
+## Concept
+
+Edward Hopper's paintings are built around windows — not as decoration but as compositional devices. A window in the foreground frames an interior; another window in the background frames the city beyond. The viewer is always outside, always peering in. That spatial logic — frame within frame, depth as emotional distance — is what this piece formalizes into code.
+
+Every load produces a unique composition: a seeded PRNG selects one of four Hopper-derived color palettes (`nighthawks` (*Nighthawks*, 1942), `morning_sun` (*Morning Sun*, 1952), `room_brooklyn` (*Room in Brooklyn*, 1932), `sun_empty_room` (*Sun in an Empty Room*, 1963)), randomizes curtain opacity and gap width, and generates a new cityscape silhouette. Same seed → identical result.
+
+---
+
 ## Controls
 
 | Key | Action |
@@ -26,13 +34,7 @@
 
 Move the mouse (or touch) to add a ±5° parallax offset on top of the autonomous pendular swing.
 
----
-
-## Concept
-
-Edward Hopper's paintings are built around windows — not as decoration but as compositional devices. A window in the foreground frames an interior; another window in the background frames the city beyond. The viewer is always outside, always peering in. That spatial logic — frame within frame, depth as emotional distance — is what this piece formalizes into code.
-
-Every load produces a unique composition: a seeded PRNG selects one of four Hopper-derived color palettes (`nighthawks`, `morning_sun`, `room_brooklyn`, `sun_empty_room`), randomizes curtain opacity and gap width, and generates a new cityscape silhouette. Same seed → identical result.
+To share a specific composition, copy the URL after pressing `R` — the seed is already embedded in the hash.
 
 ---
 
@@ -76,7 +78,7 @@ Every load produces a unique composition: a seeded PRNG selects one of four Hopp
 
 ## Technical Overview
 
-- **Three.js r120** — WebGL scene with four z-depth zones: window frame, room interior, city silhouette, GLSL sky gradient
+- **Three.js r168** — WebGL scene with four z-depth zones: window frame, room interior, city silhouette, GLSL sky gradient
 - **Zero build system** — pure vanilla JS loaded via `<script>` tags; runs directly in any browser
 - **Portrait canvas** — 1080×1920 (9:16), scaled via CSS; deliberate formal choice mapping to vertical display formats
 - **Parametric chain** — all dimensions derive from `scaleFactor` and `chosenAspectRatio`; no magic numbers
@@ -109,4 +111,4 @@ Morris Aguilar, M.D./Ph.D., has work that spans clinical AI and computational bi
 
 ## Contact
 
-[@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://mementomorris.art/) · [LinkedIn](https://www.linkedin.com/in/morris-a-aguilar/)
+[@morrisglr.bsky.social](https://bsky.app/profile/morrisglr.bsky.social) · [Creative Portfolio](https://mementomorris.art/) · [LinkedIn](https://www.linkedin.com/in/morris-a-aguilar/) · [Report a bug](https://github.com/MorrisGlr/algo-art-hopper/issues)

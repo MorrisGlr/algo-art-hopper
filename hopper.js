@@ -139,6 +139,15 @@ canvasContainer.classList.add('canvas-ready');
 renderer.setClearColor(0xeeeeee);
 document.getElementById('seed-overlay').textContent = 'seed: ' + SEED;
 
+document.getElementById('share-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.getElementById('share-btn');
+    const original = btn.innerHTML;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.innerHTML = original; }, 1500);
+  });
+});
+
 // Window object: defines the shape and size of the window object.
 //const windowGeometry = new THREE.BoxGeometry(chosenAspectRatio.width, chosenAspectRatio.height, 0.1);
 //const windowMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });

@@ -222,6 +222,44 @@
       .info .portfolio-link a:hover {
         color: #999;
       }
+
+      .palette-label {
+        font-size: 12px;
+        color: #777;
+        width: 100%;
+      }
+
+      #palette-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+
+      .palette-tab {
+        flex: 1 1 calc(50% - 3px);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 3px;
+        color: rgba(255, 255, 255, 0.55);
+        font-family: monospace;
+        font-size: 11px;
+        cursor: pointer;
+        padding: 5px 8px;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+      }
+
+      .palette-tab:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .palette-tab.active {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.55);
+        color: rgba(255, 255, 255, 0.95);
+      }
     </style>
 </head>
 <body>
@@ -235,6 +273,13 @@
         emotional distance. This scene derives every proportion from a single parametric chain and
         renders in real time via Three.js.
       </p>
+      <div id="palette-selector">
+        <div class="palette-label">Palette</div>
+        <button class="palette-tab" data-palette="nighthawks">nighthawks</button>
+        <button class="palette-tab" data-palette="morning_sun">morning sun</button>
+        <button class="palette-tab" data-palette="room_brooklyn">room brooklyn</button>
+        <button class="palette-tab" data-palette="sun_empty_room">sun empty room</button>
+      </div>
       <div class="controls">
         <kbd>C</kbd> Export video &nbsp;&middot;&nbsp;
         <kbd>R</kbd> New composition &nbsp;&middot;&nbsp;

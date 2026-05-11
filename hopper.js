@@ -38,7 +38,9 @@ const PALETTES = [
 ];
 
 // ─── Composition choices (consume rand in fixed order) ────────────────────
-const palette       = PALETTES[Math.floor(rand() * PALETTES.length)];
+const randPalette   = PALETTES[Math.floor(rand() * PALETTES.length)]; // always consume rand slot
+const paletteParam  = window.location.hash.match(/palette=([^&]+)/);
+const palette       = (paletteParam && PALETTES.find(p => p.name === paletteParam[1])) || randPalette;
 const curtainOpacity = rand() * 0.6 + 0.2;   // 0.2 – 0.8
 const curtainGapSeed = rand() * 4.0 + 1.0;   // 1.0 – 5.0
 const numPanes      = rand() < 0.5 ? 2 : 1;  // 4d: single or double pane
@@ -145,6 +147,14 @@ document.getElementById('share-btn').addEventListener('click', () => {
     const original = btn.innerHTML;
     btn.textContent = 'Copied!';
     setTimeout(() => { btn.innerHTML = original; }, 1500);
+  });
+});
+
+document.querySelectorAll('.palette-tab').forEach(btn => {
+  btn.classList.toggle('active', btn.dataset.palette === palette.name);
+  btn.addEventListener('click', () => {
+    window.location.hash = `seed=${SEED}&palette=${btn.dataset.palette}`;
+    window.location.reload();
   });
 });
 

@@ -20,7 +20,7 @@
 
 Edward Hopper's paintings are built around windows — not as decoration but as compositional devices. A window in the foreground frames an interior; another window in the background frames the city beyond. The viewer is always outside, always peering in. That spatial logic — frame within frame, depth as emotional distance — is what this piece formalizes into code.
 
-Every load produces a unique composition: a seeded PRNG selects one of four Hopper-derived color palettes (`nighthawks` (*Nighthawks*, 1942), `morning_sun` (*Morning Sun*, 1952), `room_brooklyn` (*Room in Brooklyn*, 1932), `sun_empty_room` (*Sun in an Empty Room*, 1963)), randomizes curtain opacity and gap width, and generates a new cityscape silhouette. Same seed → identical result.
+Every load produces a unique composition: a seeded PRNG selects one of nine Hopper-derived color palettes — `nighthawks` (*Nighthawks*, 1942), `morning_sun` (*Morning Sun*, 1952), `room_brooklyn` (*Room in Brooklyn*, 1932), `sun_empty_room` (*Sun in an Empty Room*, 1963), `automat` (*Automat*, 1927), `new_york_movie` (*New York Movie*, 1939), `cape_cod_evening` (*Cape Cod Evening*, 1939), `office_at_night` (*Office at Night*, 1940), `hotel_room` (*Hotel Room*, 1931) — then randomizes curtain opacity and gap width and generates a new cityscape silhouette. Same seed → identical result. Use the palette prev/next control on the live page to cycle palettes while keeping the same composition.
 
 ---
 

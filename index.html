@@ -226,39 +226,45 @@
       .palette-label {
         font-size: 12px;
         color: #777;
-        width: 100%;
+        margin-bottom: 6px;
       }
 
       #palette-selector {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
         margin-bottom: 16px;
-      }
-
-      .palette-tab {
-        flex: 1 1 calc(50% - 3px);
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 3px;
-        color: rgba(255, 255, 255, 0.55);
         font-family: monospace;
         font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .palette-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #palette-prev,
+      #palette-next {
+        background: rgba(255, 255, 255, 0.11);
+        border: 1px solid rgba(255, 255, 255, 0.38);
+        border-radius: 3px;
+        color: rgba(255, 255, 255, 0.78);
+        font-family: monospace;
+        font-size: 12px;
         cursor: pointer;
-        padding: 5px 8px;
-        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        padding: 2px 7px;
+        flex-shrink: 0;
+        transition: background 0.15s, border-color 0.15s;
       }
 
-      .palette-tab:hover {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.45);
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .palette-tab.active {
+      #palette-prev:hover,
+      #palette-next:hover {
         background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.55);
-        color: rgba(255, 255, 255, 0.95);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+
+      #palette-name {
+        flex: 1;
+        text-align: center;
       }
     </style>
 </head>
@@ -275,10 +281,11 @@
       </p>
       <div id="palette-selector">
         <div class="palette-label">Palette</div>
-        <button class="palette-tab" data-palette="nighthawks">nighthawks</button>
-        <button class="palette-tab" data-palette="morning_sun">morning sun</button>
-        <button class="palette-tab" data-palette="room_brooklyn">room brooklyn</button>
-        <button class="palette-tab" data-palette="sun_empty_room">sun empty room</button>
+        <div class="palette-row">
+          <button id="palette-prev" aria-label="Previous palette">&#8592;</button>
+          <span id="palette-name"></span>
+          <button id="palette-next" aria-label="Next palette">&#8594;</button>
+        </div>
       </div>
       <div class="controls">
         <kbd>C</kbd> Export video &nbsp;&middot;&nbsp;

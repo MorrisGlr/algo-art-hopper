@@ -34,6 +34,36 @@ const PALETTES = [
     tones: [0xf5e6b8, 0xe8cd87, 0xd4a85a, 0xb08040, 0x7a5c2a],
     sky:   [0x8fa8c8, 0xf5f0e0],
     curtain: 0xf0e8c0
+  },
+  {
+    name: 'automat',
+    tones: [0xf0dea0, 0xd8b860, 0xb89038, 0x806020, 0x3e2c08],
+    sky:   [0x0c1020, 0x181c38],
+    curtain: 0xe8c870
+  },
+  {
+    name: 'new_york_movie',
+    tones: [0xc87868, 0xb05050, 0x8a3030, 0x601818, 0x360808],
+    sky:   [0x180808, 0x280c0c],
+    curtain: 0x9a3020
+  },
+  {
+    name: 'cape_cod_evening',
+    tones: [0xeeeac0, 0xc0d890, 0x78b040, 0x3a6818, 0x183808],
+    sky:   [0x4838a8, 0x9878d0],
+    curtain: 0xf0ecd8
+  },
+  {
+    name: 'office_at_night',
+    tones: [0xdce8d0, 0xa8c0a0, 0x588870, 0x284858, 0x0e1e30],
+    sky:   [0x081428, 0x183048],
+    curtain: 0xd0dcc8
+  },
+  {
+    name: 'hotel_room',
+    tones: [0xf0e8d0, 0xd4c4a0, 0xb0a070, 0x887858, 0x4a4030],
+    sky:   [0x8ca0b8, 0xe8d0b8],
+    curtain: 0xeee0c8
   }
 ];
 
@@ -150,12 +180,38 @@ document.getElementById('share-btn').addEventListener('click', () => {
   });
 });
 
-document.querySelectorAll('.palette-tab').forEach(btn => {
-  btn.classList.toggle('active', btn.dataset.palette === palette.name);
-  btn.addEventListener('click', () => {
-    window.location.hash = `seed=${SEED}&palette=${btn.dataset.palette}`;
-    window.location.reload();
-  });
+const PALETTE_DISPLAY = [
+  { name: 'random',           label: 'random'           },
+  { name: 'nighthawks',       label: 'nighthawks'       },
+  { name: 'morning_sun',      label: 'morning sun'      },
+  { name: 'room_brooklyn',    label: 'room brooklyn'    },
+  { name: 'sun_empty_room',   label: 'sun empty room'   },
+  { name: 'automat',          label: 'automat'          },
+  { name: 'new_york_movie',   label: 'new york movie'   },
+  { name: 'cape_cod_evening', label: 'cape cod evening' },
+  { name: 'office_at_night',  label: 'office at night'  },
+  { name: 'hotel_room',       label: 'hotel room'       },
+];
+
+const currentPaletteName = paletteParam ? paletteParam[1] : 'random';
+let currentIdx = PALETTE_DISPLAY.findIndex(p => p.name === currentPaletteName);
+if (currentIdx === -1) currentIdx = 0;
+
+document.getElementById('palette-name').textContent = PALETTE_DISPLAY[currentIdx].label;
+
+function switchToPaletteAtIndex(idx) {
+  const entry = PALETTE_DISPLAY[idx];
+  window.location.hash = entry.name === 'random'
+    ? `seed=${SEED}`
+    : `seed=${SEED}&palette=${entry.name}`;
+  window.location.reload();
+}
+
+document.getElementById('palette-prev').addEventListener('click', () => {
+  switchToPaletteAtIndex((currentIdx - 1 + PALETTE_DISPLAY.length) % PALETTE_DISPLAY.length);
+});
+document.getElementById('palette-next').addEventListener('click', () => {
+  switchToPaletteAtIndex((currentIdx + 1) % PALETTE_DISPLAY.length);
 });
 
 // Window object: defines the shape and size of the window object.
